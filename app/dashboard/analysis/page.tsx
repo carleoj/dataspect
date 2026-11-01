@@ -3,7 +3,7 @@ import {
   SparklineChart,
   RevenueTrendChart,
   OrderStatusDonutChart,
-} from '../components/overview-charts';
+} from '../../../components/analysis';
 
 export default function DashboardOverviewPage() {
   return (

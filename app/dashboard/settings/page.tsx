@@ -48,71 +48,6 @@ export default function SettingsPage() {
         </div>
       </form>
 
-      {/* Notifications Preferences */}
-      <div className="rounded-lg border border-gray-200 bg-white p-6">
-        <h2 className="text-sm font-medium text-gray-900">Notifications</h2>
-
-        <ul className="mt-4 divide-y divide-gray-200">
-          <li className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0">
-            <div>
-              <p className="text-sm font-medium text-gray-900">Email notifications</p>
-              <p className="text-xs text-gray-600">Get notified when a customer places an order.</p>
-            </div>
-
-            <label
-              htmlFor="email-notifications-toggle"
-              className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-gray-200 transition has-checked:bg-indigo-600"
-            >
-              <input
-                type="checkbox"
-                id="email-notifications-toggle"
-                defaultChecked
-                className="peer sr-only"
-              />
-
-              <span className="size-4 translate-x-1 rounded-full bg-white transition peer-checked:translate-x-6 rtl:-translate-x-1 rtl:peer-checked:-translate-x-6" />
-            </label>
-          </li>
-
-          <li className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0">
-            <div>
-              <p className="text-sm font-medium text-gray-900">Product updates</p>
-              <p className="text-xs text-gray-600">Occasional emails about new features.</p>
-            </div>
-
-            <label
-              htmlFor="product-updates-toggle"
-              className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-gray-200 transition has-checked:bg-indigo-600"
-            >
-              <input type="checkbox" id="product-updates-toggle" className="peer sr-only" />
-
-              <span className="size-4 translate-x-1 rounded-full bg-white transition peer-checked:translate-x-6 rtl:-translate-x-1 rtl:peer-checked:-translate-x-6" />
-            </label>
-          </li>
-
-          <li className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0">
-            <div>
-              <p className="text-sm font-medium text-gray-900">Weekly summary</p>
-              <p className="text-xs text-gray-600">A digest of revenue and orders every Monday.</p>
-            </div>
-
-            <label
-              htmlFor="weekly-summary-toggle"
-              className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-gray-200 transition has-checked:bg-indigo-600"
-            >
-              <input
-                type="checkbox"
-                id="weekly-summary-toggle"
-                defaultChecked
-                className="peer sr-only"
-              />
-
-              <span className="size-4 translate-x-1 rounded-full bg-white transition peer-checked:translate-x-6 rtl:-translate-x-1 rtl:peer-checked:-translate-x-6" />
-            </label>
-          </li>
-        </ul>
-      </div>
-
       {/* Danger Zone */}
       <div className="rounded-lg border border-red-200 bg-white p-6">
         <h2 className="text-sm font-medium text-gray-900">Danger zone</h2>
@@ -126,7 +61,7 @@ export default function SettingsPage() {
           type="button"
           className="mt-4 inline-block rounded-md border border-red-200 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-50"
         >
-          Delete team
+          Delete account
         </button>
       </div>
     </div>
