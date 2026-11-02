@@ -1,0 +1,33 @@
+import type { Severity } from '@/types/analysis';
+
+const PILL: Record<Severity, string> = {
+  ok: 'bg-green-100 text-green-600',
+  warn: 'bg-yellow-100 text-yellow-700',
+  bad: 'bg-red-100 text-red-600',
+};
+
+interface StatCardProps {
+  label: string;
+  value: string;
+  hint?: string;
+  badge?: { text: string; severity: Severity };
+}
+
+export function StatCard({ label, value, hint, badge }: StatCardProps) {
+  return (
+    <article className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-6">
+      <div className="h-6 self-end">
+        {badge && (
+          <span className={`rounded-sm px-2 py-1 text-xs font-medium ${PILL[badge.severity]}`}>{badge.text}</span>
+        )}
+      </div>
+      <div>
+        <strong className="block text-sm font-medium text-gray-600">{label}</strong>
+        <p>
+          <span className="text-2xl font-medium text-gray-900">{value}</span>{' '}
+          {hint && <span className="text-xs text-gray-600">{hint}</span>}
+        </p>
+      </div>
+    </article>
+  );
+}
