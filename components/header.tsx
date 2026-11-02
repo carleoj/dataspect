@@ -3,6 +3,7 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { LogoutButton } from './logout-btn';
 
 // 1. Define the subpage route architecture
 interface SubPageTab {
@@ -45,14 +46,12 @@ const ROUTE_MAP: Record<string, RouteConfig> = {
 export function DashboardHeader() {
   const pathname = usePathname();
 
-  // Find match by exact path, or fallback to the parent layout configuration (e.g., /dashboard/analysis/schema splits down)
+  // Find match by exact path, or fallback to the parent layout configuration
   const currentKey = Object.keys(ROUTE_MAP).find(
     (key) => pathname === key || pathname.startsWith(key + '/')
-  ) || '/dashboard/analysis';
+  ) || '/dashboard';
 
   const currentRoute = ROUTE_MAP[currentKey];
-
-  
 
   return (
     <div className="flex flex-col border-b border-gray-200 bg-white shrink-0">
@@ -73,25 +72,39 @@ export function DashboardHeader() {
           <h1 className="text-xl font-bold text-gray-900 tracking-tight">{currentRoute.title}</h1>
         </div>
 
-        {/* Dynamic Action Trigger Button */}
-        {currentRoute.action && (
-          currentRoute.action.formId ? (
+        {/* Right Action Buttons Container */}
+        <div className="flex items-center gap-3">
+          {/* Dynamic Action Trigger Button */}
+          {currentRoute.action && (
+            currentRoute.action.formId ? (
+              <button
+                type="submit"
+                form={currentRoute.action.formId}
+                className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 cursor-pointer"
+              >
+                {currentRoute.action.label}
+              </button>
+            ) : (
+              <Link
+                href={currentRoute.action.href || '#'}
+                className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
+              >
+                {currentRoute.action.label}
+              </Link>
+            )
+          )}
+
+          {/* Sign Out Button */}
+          {/* <form action={signOutAction}>
             <button
               type="submit"
-              form={currentRoute.action.formId}
-              className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 cursor-pointer"
+              className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 transition cursor-pointer"
             >
-              {currentRoute.action.label}
+              Sign out
             </button>
-          ) : (
-            <Link
-              href={currentRoute.action.href || '#'}
-              className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
-            >
-              {currentRoute.action.label}
-            </Link>
-          )
-        )}
+          </form> */}
+          <LogoutButton />
+        </div>
       </header>
 
       {/* Subpage Sub-Navigation Tabs Row (Only mounts if tabs exist for route) */}
