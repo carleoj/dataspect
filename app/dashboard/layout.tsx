@@ -1,9 +1,22 @@
 // app/dashboard/layout.tsx
+
+"use client"
+
+import { ReactNode, useEffect } from 'react';
 import Sidebar from '../../components/sidebar';
 import { DashboardHeader } from '../../components/header';
-import { ReactNode } from 'react';
+import { useUserStore } from '@/store/useUserStore';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
+  const user = useUserStore((state) => state.user);
+  const fetchUser = useUserStore((state) => state.fetchUser);
+
+  useEffect(() => {
+    if (!user) {
+      fetchUser();
+    }
+  }, [user, fetchUser]);
+
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Hidden checkbox for mobile drawer toggle */}

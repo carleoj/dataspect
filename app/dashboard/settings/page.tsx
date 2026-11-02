@@ -2,11 +2,24 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function SettingsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");
+
+  const user = useUserStore((state) => state.user);
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setFullName(user.name);
+      setEmail(user.email);
+    }
+  }, [user]);
 
   const isConfirmed = text.trim() === "DELETE";
 
@@ -16,7 +29,6 @@ export default function SettingsPage() {
   };
   return (
     <div className="space-y-6">
-      {/* Profile Form */}
       <form
         id="account-settings-form"
         onSubmit={(e) => {
@@ -41,7 +53,7 @@ export default function SettingsPage() {
               type="text"
               id="full-name"
               name="fullName"
-              defaultValue="Priya Natarajan"
+              defaultValue={user?.name}
               className="mt-1 w-full rounded-md border-gray-200 text-sm text-gray-900 shadow-xs"
             />
           </div>
@@ -58,7 +70,7 @@ export default function SettingsPage() {
               type="email"
               id="email-address"
               name="email"
-              defaultValue="priya@orbitly.com"
+              defaultValue={user?.email}
               className="mt-1 w-full rounded-md border-gray-200 text-sm text-gray-900 shadow-xs"
             />
           </div>

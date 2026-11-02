@@ -12,12 +12,12 @@ export interface RegisterData extends Credentials {
 export const authService = {
   async register(data: RegisterData) {
     const response = await api.post('/register', data);
-    return response.data; // Returns { message, user, token }
+    return response.data; 
   },
 
   async login(credentials: Credentials) {
     const response = await api.post('/login', credentials);
-    return response.data; // Returns { message, user, token }
+    return response.data; 
   },
 
   async logout() {
@@ -27,6 +27,6 @@ export const authService = {
 
   async fetchUser() {
     const response = await api.get('/user');
-    return response.data; // Returns the user resource object
+    return response.data; 
   },
 };
