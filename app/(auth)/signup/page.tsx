@@ -1,15 +1,39 @@
-// client/app/(auth)/signup/page.tsx
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { useActionState, Suspense } from 'react';
-import { signUpAction } from './actions';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { useAuthStore } from '@/store/useAuthStore';
 
-function SignupForm() {
-  const [state, formAction, isPending] = useActionState(signUpAction, null);
-  const searchParams = useSearchParams();
-  const message = searchParams.get('message');
+export default function SignupPage() {
+  const router = useRouter();
+  const registerStore = useAuthStore((state) => state.register);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const { mutate: signupMutation, isPending } = useMutation({
+    mutationFn: async () => {
+      await registerStore({ name, email, password });
+    },
+    onSuccess: () => {
+      router.push('/dashboard/analysis');
+    },
+    onError: (err: any) => {
+      setErrorMessage(
+        err.response?.data?.message || err.message || 'Something went wrong during registration.'
+      );
+    },
+  });
+
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>)=> {
+    e.preventDefault();
+    setErrorMessage('');
+    signupMutation();
+  };
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
@@ -21,7 +45,13 @@ function SignupForm() {
         <p className="mt-1 text-sm text-gray-600">Get started with your dashboard today.</p>
       </div>
 
-      <form action={formAction} className="mt-6 space-y-4"> 
+      {errorMessage && (
+        <div className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-200">
+          {errorMessage}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">
             Full name
@@ -29,8 +59,9 @@ function SignupForm() {
           <input
             type="text"
             id="name"
-            name="fullName"
             required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Priya Natarajan"
             className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-900 shadow-xs focus:border-gray-900 focus:outline-none"
           />
@@ -43,8 +74,9 @@ function SignupForm() {
           <input
             type="email"
             id="email"
-            name="email"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
             className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-900 shadow-xs focus:border-gray-900 focus:outline-none"
           />
@@ -57,20 +89,13 @@ function SignupForm() {
           <input
             type="password"
             id="password"
-            name="password"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-900 shadow-xs focus:border-gray-900 focus:outline-none"
           />
         </div>
-
-        {state?.error && (
-          <p className="text-red-600 text-sm font-medium">{state.error}</p>
-        )}
-
-        {message && (
-          <p className="text-green-600 text-sm font-medium">{message}</p>
-        )}
 
         <button
           type="submit"
@@ -88,13 +113,5 @@ function SignupForm() {
         </Link>
       </p>
     </div>
-  );
-}
-
-export default function SignupPage() {
-  return (
-    <Suspense fallback={<div className="p-8 text-center text-sm text-gray-500">Loading...</div>}>
-      <SignupForm />
-    </Suspense>
   );
 }
