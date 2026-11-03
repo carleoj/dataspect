@@ -93,7 +93,7 @@ export default function Sidebar() {
         <div className="p-4">
           <div className="flex items-center rounded-full gap-3 px-2">
             <Image
-              src="/logo-dark.png"
+              src="/logo-light-notext.png"
               alt="DataSpect Logo"
               width={50}
               height={50}
@@ -142,10 +142,10 @@ export default function Sidebar() {
             className="flex items-center gap-3 bg-white p-4 hover:bg-gray-50 transition-colors"
           >
             <Image
-              src="/logo-dark.png"
+              src="/user-pfp.png"
               alt="DataSpect Logo"
-              width={50}
-              height={50}
+              width={48}
+              height={48}
               className="rounded-full object-cover"
             />
             <p className="text-xs text-gray-900 leading-snug">
