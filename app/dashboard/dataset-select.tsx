@@ -19,7 +19,6 @@ export function DatasetSelect() {
     getDatasets().then(setDatasets);
   }, []);
 
-  // Close on outside click or Escape
   useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => {
@@ -52,10 +51,19 @@ export function DatasetSelect() {
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="true"
         aria-expanded={open}
-        className="flex w-56 cursor-pointer items-center justify-between gap-3 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-left text-sm text-gray-900 shadow-sm transition hover:bg-gray-50"
+        aria-label={`Dataset: ${selected?.name ?? "none selected"}`}
+        title={selected?.name}
+        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-white text-sm text-gray-900 shadow-xs transition hover:bg-gray-50 sm:h-auto sm:w-50 sm:justify-between sm:gap-3 sm:px-4 sm:py-2.5 sm:text-left lg:w-56"
       >
-        <span className="truncate">{selected?.name ?? "Select dataset"}</span>
-        <svg aria-hidden="true" viewBox="0 0 10 5" className="size-2.5 shrink-0 text-gray-500" fill="currentColor">
+        <span className="hidden truncate text-xs sm:block">
+          {selected?.name ?? "Select dataset"}
+        </span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 10 5"
+          className="size-2.5 shrink-0 text-gray-500"
+          fill="currentColor"
+        >
           <path d="M0 0l5 5 5-5z" />
         </svg>
       </button>
@@ -78,9 +86,8 @@ export function DatasetSelect() {
                 className="mt-1 size-4 shrink-0 accent-gray-900"
               />
               <span className="min-w-0">
-                <span className="block truncate text-sm text-gray-900">{d.name}</span>
-                <span className="block text-xs text-gray-500">
-                  {d.rows.toLocaleString("en-US")} rows · {d.sizeLabel}
+                <span className="block truncate text-sm text-gray-900">
+                  {d.name}
                 </span>
               </span>
             </label>

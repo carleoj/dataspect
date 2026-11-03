@@ -64,7 +64,7 @@ export function DashboardHeader() {
     <div className="flex flex-col border-b border-gray-200 bg-white shrink-0">
       {/* Top Header Row */}
       <header className="h-16 flex items-center px-6 justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           {/* Mobile Hamburger Menu Button */}
           <label
             htmlFor="sidebar-toggle"
@@ -86,7 +86,7 @@ export function DashboardHeader() {
             </svg>
           </label>
 
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">
+          <h1 className="text-sm sm:text-md md:text-xl font-bold text-gray-900 tracking-tight">
             {currentRoute.title}
           </h1>
         </div>
@@ -117,19 +117,22 @@ export function DashboardHeader() {
         </div>
       </header>
 
-      {/* Subpage Sub-Navigation Tabs Row (Only mounts if tabs exist for route) */}
       {currentRoute.tabs && (
-        <nav className="flex px-6 gap-6 border-t border-gray-100 h-11 items-center">
+        <nav
+          aria-label="Analysis sections"
+          className="flex h-11 items-center gap-6 overflow-x-auto border-t border-gray-100 px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
           {currentRoute.tabs.map((tab) => {
             const isActive = pathname === tab.href;
             return (
               <Link
                 key={tab.href}
                 href={`${tab.href}${qs}`}
-                className={`text-xs xl:text-sm font-medium h-full flex items-center border-b-2 px-1 transition-colors relative top-[1px] ${
+                aria-current={isActive ? "page" : undefined}
+                className={`relative top-[1px] flex h-full shrink-0 items-center whitespace-nowrap border-b-2 px-1 text-xs font-medium transition-colors xl:text-sm ${
                   isActive
-                    ? "border-gray-900 text-gray-900 font-semibold"
-                    : "border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-200"
+                    ? "border-gray-900 font-semibold text-gray-900"
+                    : "border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-900"
                 }`}
               >
                 {tab.name}

@@ -37,7 +37,7 @@ async function OverviewContent({ searchParams }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Rows" value={overview.rows.toLocaleString('en-US')} badge={{ text: 'Parsed', severity: 'ok' }} />
         <StatCard label="Columns" value={String(overview.columns)} badge={{ text: 'Parsed', severity: 'ok' }} />
         <StatCard label="Missing cells" value={`${overview.missingCellsPct}%`} hint={`target ${overview.missingTargetPct}%`}
