@@ -1,18 +1,14 @@
-import { Suspense } from 'react';
-import { getDatasets } from '@/services/datasetService';
-import { Card } from '@/components/ui/card';
-import { DatasetsTable } from '@/components/datasets/datasets-table';
-import { UploadModal } from './upload-modal';
+import { Suspense } from "react";
+import { Card } from "@/components/ui/card";
+import { DatasetsList } from "@/components/datasets/datasets-list";
+import { UploadModal } from "./upload-modal";
 
-export default async function DatasetsPage() {
-  const datasets = await getDatasets();
-
+export default function DatasetsPage() {
   return (
     <>
       <Card>
-        <DatasetsTable datasets={datasets} />
+        <DatasetsList />
       </Card>
-
       <Suspense fallback={null}>
         <UploadModal />
       </Suspense>

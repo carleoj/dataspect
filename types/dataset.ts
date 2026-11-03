@@ -5,5 +5,6 @@ export interface DatasetSummary {
   columns: number;
   sizeLabel: string;
   uploadedLabel: string;
-  health: "healthy" | "needs_attention";
+  status: 'pending' | 'processing' | 'ready' | 'failed';
+  health: 'healthy' | 'needs_attention' | null;
 }
