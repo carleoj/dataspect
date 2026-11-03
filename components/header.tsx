@@ -30,9 +30,8 @@ const ROUTE_MAP: Record<string, RouteConfig> = {
   },
   "/dashboard/datasets": {
     title: "Datasets",
-    action: { label: "Upload file", href: "/dashboard/datasets/upload" },
+    action: { label: "Upload file", href: "/dashboard/datasets?upload=1" },
   },
-  "/dashboard/datasets/upload": { title: "New dataset" },
   "/dashboard/analysis": {
     title: "Dataset Analysis",
     tabs: [

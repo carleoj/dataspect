@@ -2,9 +2,17 @@
 "use client";
 
 import Link from "next/link";
-import Image from 'next/image';
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
+import { useEffect } from "react";
+
+const closeSidebar = () => {
+  const toggle = document.getElementById(
+    "sidebar-toggle",
+  ) as HTMLInputElement | null;
+  if (toggle) toggle.checked = false;
+};
 
 const navItems = [
   {
@@ -74,6 +82,9 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  useEffect(() => {
+    closeSidebar();
+  }, [pathname]);
   const user = useUserStore((state) => state.user);
 
   return (
@@ -113,12 +124,16 @@ export default function Sidebar() {
           <nav aria-label="Dashboard" className="mt-4">
             <ul className="space-y-1">
               {navItems.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive =
+                  pathname === item.href ||
+                  pathname.startsWith(item.href + "/");
 
                 return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      onClick={closeSidebar}
+                      aria-current={isActive ? "page" : undefined}
                       className={`flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
                         isActive
                           ? "bg-gray-100 text-gray-900"
