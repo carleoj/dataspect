@@ -11,7 +11,7 @@ export function SubmitRow({ label, savingLabel, saving, status }: SubmitRowProps
       <button
         type="submit"
         disabled={saving}
-        className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+        className="hover:cursor-pointer rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {saving ? savingLabel : label}
       </button>

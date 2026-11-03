@@ -104,11 +104,11 @@ export default function Sidebar() {
         <div className="p-4">
           <div className="flex items-center rounded-full gap-3 px-2">
             <Image
-              src="/logo-light-lite.png"
-              alt="DataSpect Logo"
-              width={50}
-              height={50}
-              className="rounded-full object-cover"
+              src="/logo-navy-dark.svg"
+              alt=""
+              width={44}
+              height={44}
+              priority
             />
 
             <div className="min-w-0">

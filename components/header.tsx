@@ -37,6 +37,9 @@ const ROUTE_MAP: Record<string, RouteConfig> = {
     ],
     datasetSelect: true,
   },
+  "/dashboard/settings": {
+    title: "Settings",
+  }
 };
 
 const FALLBACK: RouteConfig = { title: "Dashboard" };
