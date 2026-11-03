@@ -24,10 +24,6 @@ interface RouteConfig {
 }
 
 const ROUTE_MAP: Record<string, RouteConfig> = {
-  "/dashboard/settings": {
-    title: "Settings",
-    action: { label: "Save changes", formId: "account-settings-form" },
-  },
   "/dashboard/datasets": {
     title: "Datasets",
     action: { label: "Upload file", href: "/dashboard/datasets?upload=1" },
