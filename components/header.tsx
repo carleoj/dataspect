@@ -39,7 +39,7 @@ const ROUTE_MAP: Record<string, RouteConfig> = {
       { name: "Schema & Quality", href: "/dashboard/analysis/schema" },
       { name: "Missing Values", href: "/dashboard/analysis/missing" },
     ],
-    datasetSelect: true, // replaces the `action: { label: "New dataset", ... }` line
+    datasetSelect: true,
   },
 };
 
@@ -51,12 +51,10 @@ export function DashboardHeader() {
   const dataset = searchParams.get("dataset");
   const qs = dataset ? `?dataset=${dataset}` : "";
 
-  // Find match by exact path, or fallback to the parent layout configuration
   const currentKey = Object.keys(ROUTE_MAP)
     .filter((key) => pathname === key || pathname.startsWith(key + "/"))
     .sort((a, b) => b.length - a.length)[0];
 
-  // Fixed: Evaluated after currentKey and ROUTE_MAP are declared
   const currentRoute = (currentKey && ROUTE_MAP[currentKey]) || FALLBACK;
 
   return (
