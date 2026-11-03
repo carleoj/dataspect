@@ -34,12 +34,13 @@ export interface ColumnProfile {
 }
 
 export interface DatasetOverview {
-  rows: number;
-  columns: number;
-  missingCellsPct: number;
-  missingTargetPct: number;
-  duplicateRows: number;
-  duplicateRowsPct: number;
+  status: 'pending' | 'processing' | 'ready' | 'failed';
+  rows: number | null;
+  columns: number | null;
+  missingCellsPct: number | null;
+  missingTargetPct: number | null;
+  duplicateRows: number | null;
+  duplicateRowsPct: number | null;
 }
 
 export interface MissingSummary {

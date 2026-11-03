@@ -1,5 +1,4 @@
-// Placeholder data. Every function is async so pages stay unchanged when the bodies
-// are swapped for calls through lib/axios.ts to the Laravel API.
+import { api } from '@/lib/axios';
 
 import type {
   ColumnProfile,
@@ -99,15 +98,9 @@ const seeded = (i: number) => {
   return x - Math.floor(x);
 };
 
-export async function getDatasetOverview(_datasetId?: string): Promise<DatasetOverview> {
-  return {
-    rows: 100000,
-    columns: 8,
-    missingCellsPct: 6.6,
-    missingTargetPct: 2,
-    duplicateRows: 412,
-    duplicateRowsPct: 0.4,
-  };
+export async function getDatasetOverview(datasetId: string): Promise<DatasetOverview> {
+  const { data } = await api.get(`/datasets/${datasetId}/overview`);
+  return data.data;
 }
 
 export async function getColumnProfiles(_datasetId?: string): Promise<ColumnProfile[]> {
