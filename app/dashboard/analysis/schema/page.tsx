@@ -1,10 +1,27 @@
+import { Suspense } from 'react';
 import { getColumnProfiles, getHealthSummary } from '@/services/analysisService';
 import { Card } from '@/components/ui/card';
 import { StatCard } from '@/components/ui/stat-card';
 import { SchemaTable } from '@/components/analysis/schema-table';
+import { AnalysisSkeleton } from '@/components/analysis/analysis-skeleton';
 
-export default async function SchemaQualityPage() {
-  const [health, columns] = await Promise.all([getHealthSummary(), getColumnProfiles()]);
+type Props = { searchParams: Promise<{ dataset?: string }> };
+
+export default function SchemaQualityPage({ searchParams }: Props) {
+  return (
+    <Suspense fallback={<AnalysisSkeleton />}>
+      <SchemaContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function SchemaContent({ searchParams }: Props) {
+  const { dataset } = await searchParams;
+
+  const [health, columns] = await Promise.all([
+    getHealthSummary(dataset),
+    getColumnProfiles(dataset),
+  ]);
 
   return (
     <div className="space-y-6">

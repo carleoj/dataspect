@@ -1,11 +1,12 @@
 // app/dashboard/layout.tsx
 
-"use client"
+"use client";
 
-import { ReactNode, useEffect } from 'react';
-import Sidebar from '../../components/sidebar';
-import { DashboardHeader } from '../../components/header';
-import { useUserStore } from '@/store/useUserStore';
+import { ReactNode, useEffect } from "react";
+import Sidebar from "../../components/sidebar";
+import { DashboardHeader } from "../../components/header";
+import { useUserStore } from "@/store/useUserStore";
+import { Suspense } from "react";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const user = useUserStore((state) => state.user);
@@ -28,12 +29,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {/* Main content shell */}
       <div className="flex flex-1 flex-col min-w-0 overflow-hidden">
         {/* Top Header Bar */}
-        <DashboardHeader />
+        <Suspense
+          fallback={<div className="h-16 border-b border-gray-200 bg-white" />}
+        >
+          <DashboardHeader />
+        </Suspense>
 
         {/* Scrollable Content Area */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
   );

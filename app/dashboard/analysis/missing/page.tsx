@@ -1,11 +1,29 @@
+import { Suspense } from 'react';
 import { getColumnProfiles, getMissingMatrix, getMissingSummary } from '@/services/analysisService';
 import { Card } from '@/components/ui/card';
 import { StatCard } from '@/components/ui/stat-card';
 import { MissingBars } from '@/components/analysis/missing-bars';
 import { MissingMatrix } from '@/components/analysis/missing-matrix';
+import { AnalysisSkeleton } from '@/components/analysis/analysis-skeleton';
 
-export default async function MissingValuesPage() {
-  const [summary, columns, grid] = await Promise.all([getMissingSummary(), getColumnProfiles(), getMissingMatrix(40)]);
+type Props = { searchParams: Promise<{ dataset?: string }> };
+
+export default function MissingValuesPage({ searchParams }: Props) {
+  return (
+    <Suspense fallback={<AnalysisSkeleton />}>
+      <MissingContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function MissingContent({ searchParams }: Props) {
+  const { dataset } = await searchParams;
+
+  const [summary, columns, grid] = await Promise.all([
+    getMissingSummary(dataset),
+    getColumnProfiles(dataset),
+    getMissingMatrix(dataset, 40),
+  ]);
 
   return (
     <div className="space-y-6">

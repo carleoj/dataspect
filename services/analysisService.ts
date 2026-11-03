@@ -99,7 +99,7 @@ const seeded = (i: number) => {
   return x - Math.floor(x);
 };
 
-export async function getDatasetOverview(): Promise<DatasetOverview> {
+export async function getDatasetOverview(_datasetId?: string): Promise<DatasetOverview> {
   return {
     rows: 100000,
     columns: 8,
@@ -110,11 +110,11 @@ export async function getDatasetOverview(): Promise<DatasetOverview> {
   };
 }
 
-export async function getColumnProfiles(): Promise<ColumnProfile[]> {
+export async function getColumnProfiles(_datasetId?: string): Promise<ColumnProfile[]> {
   return COLUMNS;
 }
 
-export async function getColumnTypeCounts(): Promise<ColumnTypeCount[]> {
+export async function getColumnTypeCounts(_datasetId?: string): Promise<ColumnTypeCount[]> {
   return [
     { label: "Numeric", count: 3, color: "#4f46e5" },
     { label: "Categorical", count: 3, color: "#10b981" },
@@ -125,12 +125,13 @@ export async function getColumnTypeCounts(): Promise<ColumnTypeCount[]> {
 
 export async function getHistogram(
   _column = "customer_age",
+  _datasetId?: string
 ): Promise<HistogramBin[]> {
   const counts = [4, 9, 18, 30, 44, 52, 41, 30, 19, 11, 6, 3, 2, 1];
   return counts.map((count, i) => ({ label: String(18 + i * 6), count }));
 }
 
-export async function getCorrelation(): Promise<CorrelationMatrix> {
+export async function getCorrelation(_datasetId?: string): Promise<CorrelationMatrix> {
   return {
     columns: ["order_id", "customer_age", "order_total"],
     values: [
@@ -141,7 +142,7 @@ export async function getCorrelation(): Promise<CorrelationMatrix> {
   };
 }
 
-export async function getHealthSummary(): Promise<HealthSummary> {
+export async function getHealthSummary(_datasetId?: string): Promise<HealthSummary> {
   return {
     score: 74,
     issues: 9,
@@ -152,7 +153,7 @@ export async function getHealthSummary(): Promise<HealthSummary> {
   };
 }
 
-export async function getMissingSummary(): Promise<MissingSummary> {
+export async function getMissingSummary(_datasetId?: string): Promise<MissingSummary> {
   return {
     missingCells: 52840,
     columnsWithGaps: 4,
@@ -163,7 +164,7 @@ export async function getMissingSummary(): Promise<MissingSummary> {
 }
 
 /** rows x columns grid, true = missing. Only the first `rows` rows are sampled. */
-export async function getMissingMatrix(rows = 40): Promise<boolean[][]> {
+export async function getMissingMatrix(_datasetId?: string, rows = 40): Promise<boolean[][]> {
   return Array.from({ length: rows }, (_, y) =>
     COLUMNS.map((c, x) => seeded(x * 100 + y) < (c.missingPct / 100) * 1.4),
   );

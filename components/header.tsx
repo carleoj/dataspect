@@ -1,8 +1,9 @@
 // components/dashboard/header.tsx
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { DatasetSelect } from "../app/dashboard/dataset-select";
 import { LogoutButton } from "./logout-btn";
 
 // 1. Define the subpage route architecture
@@ -14,6 +15,7 @@ interface SubPageTab {
 interface RouteConfig {
   title: string;
   tabs?: SubPageTab[];
+  datasetSelect?: boolean;
   action?: {
     label: string;
     href?: string;
@@ -21,7 +23,6 @@ interface RouteConfig {
   };
 }
 
-// 2. Map paths to their respective layouts and internal tabs
 const ROUTE_MAP: Record<string, RouteConfig> = {
   "/dashboard/settings": {
     title: "Settings",
@@ -39,7 +40,7 @@ const ROUTE_MAP: Record<string, RouteConfig> = {
       { name: "Schema & Quality", href: "/dashboard/analysis/schema" },
       { name: "Missing Values", href: "/dashboard/analysis/missing" },
     ],
-    action: { label: "New dataset", href: "/dashboard/datasets/upload" },
+    datasetSelect: true, // replaces the `action: { label: "New dataset", ... }` line
   },
 };
 
@@ -47,6 +48,9 @@ const FALLBACK: RouteConfig = { title: "Dashboard" };
 
 export function DashboardHeader() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const dataset = searchParams.get("dataset");
+  const qs = dataset ? `?dataset=${dataset}` : "";
 
   // Find match by exact path, or fallback to the parent layout configuration
   const currentKey = Object.keys(ROUTE_MAP)
@@ -90,6 +94,7 @@ export function DashboardHeader() {
         {/* Right Action Buttons Container */}
         <div className="flex items-center gap-3">
           {/* Dynamic Action Trigger Button */}
+          {currentRoute.datasetSelect && <DatasetSelect />}
           {currentRoute.action &&
             (currentRoute.action.formId ? (
               <button
@@ -120,7 +125,7 @@ export function DashboardHeader() {
             return (
               <Link
                 key={tab.href}
-                href={tab.href}
+                href={`${tab.href}${qs}`}
                 className={`text-xs xl:text-sm font-medium h-full flex items-center border-b-2 px-1 transition-colors relative top-[1px] ${
                   isActive
                     ? "border-gray-900 text-gray-900 font-semibold"
