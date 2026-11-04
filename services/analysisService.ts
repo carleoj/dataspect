@@ -7,6 +7,7 @@ import type {
   DatasetOverview,
   HealthSummary,
   HistogramBin,
+  Distributions,
   MissingSummary,
 } from "@/types/analysis";
 
@@ -107,32 +108,24 @@ export async function getColumnProfiles(_datasetId?: string): Promise<ColumnProf
   return COLUMNS;
 }
 
-export async function getColumnTypeCounts(_datasetId?: string): Promise<ColumnTypeCount[]> {
-  return [
-    { label: "Numeric", count: 3, color: "#4f46e5" },
-    { label: "Categorical", count: 3, color: "#10b981" },
-    { label: "Datetime", count: 1, color: "#f59e0b" },
-    { label: "Text", count: 1, color: "#f43f5e" },
-  ];
+export async function getColumnTypeCounts(datasetId: string): Promise<ColumnTypeCount[]> {
+  const { data } = await api.get(`/datasets/${datasetId}/column-types`);
+  return data.data;
 }
 
-export async function getHistogram(
-  _column = "customer_age",
-  _datasetId?: string
-): Promise<HistogramBin[]> {
-  const counts = [4, 9, 18, 30, 44, 52, 41, 30, 19, 11, 6, 3, 2, 1];
-  return counts.map((count, i) => ({ label: String(18 + i * 6), count }));
+export async function getDistributions(datasetId: string): Promise<Distributions> {
+  const { data } = await api.get(`/datasets/${datasetId}/distributions`);
+  return data.data;
 }
 
-export async function getCorrelation(_datasetId?: string): Promise<CorrelationMatrix> {
-  return {
-    columns: ["order_id", "customer_age", "order_total"],
-    values: [
-      [1, 0.02, 0.01],
-      [0.02, 1, 0.31],
-      [0.01, 0.31, 1],
-    ],
-  };
+export async function getColumns(datasetId: string): Promise<ColumnProfile[]> {
+  const { data } = await api.get(`/datasets/${datasetId}/columns`);
+  return data.data;
+}
+
+export async function getCorrelation(datasetId: string): Promise<CorrelationMatrix> {
+  const { data } = await api.get(`/datasets/${datasetId}/correlation`);
+  return data.data;
 }
 
 export async function getHealthSummary(_datasetId?: string): Promise<HealthSummary> {

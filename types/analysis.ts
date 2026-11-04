@@ -66,12 +66,17 @@ export interface ColumnTypeCount {
   color: string;
 }
 
+export interface CorrelationMatrix {
+  columns: string[];
+  values: number[][];
+}
+
 export interface HistogramBin {
   label: string;
   count: number;
 }
 
-export interface CorrelationMatrix {
+export interface Distributions {
   columns: string[];
-  values: number[][];
+  histograms: Record<string, HistogramBin[]>;
 }
