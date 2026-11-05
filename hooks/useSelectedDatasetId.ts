@@ -1,21 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { getDatasets } from "@/services/datasetService";
+import { useDatasetStore } from "../store/useDatasetsStore";
+import { useDatasets } from "./useDatasets";
 
 export function useSelectedDatasetId() {
   const param = useSearchParams().get("dataset");
-  // undefined = still loading the list, null = user has no datasets
-  const [fallback, setFallback] = useState<string | null | undefined>(undefined);
+  const stored = useDatasetStore((s) => s.selectedId);
+  const setSelectedId = useDatasetStore((s) => s.setSelectedId);
+  const { data: list, isPending } = useDatasets();
 
   useEffect(() => {
-    if (param) return;
-    getDatasets()
-      .then((list) => setFallback(list[0]?.id ?? null))
-      .catch(() => setFallback(null));
-  }, [param]);
+    if (param && param !== stored) setSelectedId(param);
+  }, [param, stored, setSelectedId]);
 
-  if (param) return { id: param, loading: false };
-  return { id: fallback ?? null, loading: fallback === undefined };
+  const wanted = param ?? stored;
+
+  if (wanted) {
+    if (isPending) return { id: wanted, loading: false };
+    if (list?.some((d) => d.id === wanted))
+      return { id: wanted, loading: false };
+  }
+  if (isPending) return { id: null, loading: true };
+  return { id: list?.[0]?.id ?? null, loading: false };
 }

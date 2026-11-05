@@ -5,8 +5,8 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { DatasetSelect } from "../app/dashboard/dataset-select";
 import { LogoutButton } from "./logout-btn";
+import { useDatasetStore } from "../store/useDatasetsStore";
 
-// 1. Define the subpage route architecture
 interface SubPageTab {
   name: string;
   href: string;
@@ -47,8 +47,9 @@ const FALLBACK: RouteConfig = { title: "Dashboard" };
 export function DashboardHeader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const dataset = searchParams.get("dataset");
-  const qs = dataset ? `?dataset=${dataset}` : "";
+  const stored = useDatasetStore((s) => s.selectedId);
+const dataset = searchParams.get("dataset") ?? stored;
+const qs = dataset ? `?dataset=${dataset}` : "";
 
   const currentKey = Object.keys(ROUTE_MAP)
     .filter((key) => pathname === key || pathname.startsWith(key + "/"))

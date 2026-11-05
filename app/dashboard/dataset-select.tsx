@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getDatasets } from "@/services/datasetService";
-import type { DatasetSummary } from "@/types/dataset";
 import { useDatasets } from "@/hooks/useDatasets";
+import { useSelectedDatasetId } from "@/hooks/useSelectedDatasetId";
+import { useDatasetStore } from "../../store/useDatasetsStore";
 
 export function DatasetSelect() {
   const router = useRouter();
@@ -32,10 +32,12 @@ export function DatasetSelect() {
   }, [open]);
 
   // No ?dataset= in the URL means the first dataset in the list
-  const selectedId = searchParams.get("dataset") ?? datasets[0]?.id;
+  const { id: selectedId } = useSelectedDatasetId();
+  const setSelectedId = useDatasetStore((s) => s.setSelectedId);
   const selected = datasets.find((d) => d.id === selectedId);
 
   const choose = (id: string) => {
+    setSelectedId(id);
     const params = new URLSearchParams(searchParams.toString());
     params.set("dataset", id);
     router.push(`${pathname}?${params.toString()}`);

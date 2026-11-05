@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 import { useEffect } from "react";
+import { useDatasetStore } from "../store/useDatasetsStore";
 
 const closeSidebar = () => {
   const toggle = document.getElementById(
@@ -86,6 +87,7 @@ export default function Sidebar() {
     closeSidebar();
   }, [pathname]);
   const user = useUserStore((state) => state.user);
+  const selectedId = useDatasetStore((s) => s.selectedId);
 
   return (
     <>
@@ -127,11 +129,15 @@ export default function Sidebar() {
                 const isActive =
                   pathname === item.href ||
                   pathname.startsWith(item.href + "/");
+                const href =
+                  item.href === "/dashboard/analysis" && selectedId
+                    ? `${item.href}?dataset=${selectedId}`
+                    : item.href;
 
                 return (
                   <li key={item.href}>
                     <Link
-                      href={item.href}
+                      href={href}
                       onClick={closeSidebar}
                       aria-current={isActive ? "page" : undefined}
                       className={`flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
