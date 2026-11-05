@@ -7,7 +7,7 @@ import { AsyncCard } from "./async-card";
 import { Histogram } from "./histogram";
 
 export function DistributionCard() {
-  const state = useDatasetData(getDistributions);
+  const state = useDatasetData("distributions", getDistributions)
   const [picked, setPicked] = useState<string | null>(null);
 
   const columns = state.data?.columns ?? [];
@@ -16,7 +16,7 @@ export function DistributionCard() {
   return (
     <AsyncCard
       title="Distribution"
-      className="lg:col-span-2"
+      className="lg:col-span-2 shadow-sm"
       state={state}
       isEmpty={(d) => d.columns.length === 0}
       emptyText="No numeric columns found, or this dataset isn’t analyzed yet."

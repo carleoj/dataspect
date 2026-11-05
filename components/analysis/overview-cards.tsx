@@ -7,15 +7,16 @@ import { getDatasetOverview } from "@/services/analysisService";
 const num = (n: number | null) => (n === null ? "—" : n.toLocaleString("en-US"));
 const pct = (n: number | null) => (n === null ? "—" : `${n}%`);
 const GRID = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4";
+const LABELS = ["Rows", "Columns", "Missing cells", "Duplicate rows"];
 
 export function OverviewCards() {
-  const { data: o, loading, error, noDataset } = useDatasetData(getDatasetOverview);
+  const { data: o, loading, error, noDataset } = useDatasetData("overview", getDatasetOverview)
 
   if (loading) {
     return (
-      <div className={`${GRID} animate-pulse`} aria-busy="true">
-        {[0, 1, 2, 3].map((i) => (
-          <div key={i} className="h-32 rounded-lg border border-gray-200 bg-gray-100" />
+      <div className={GRID} aria-busy="true">
+        {LABELS.map((label) => (
+          <StatCard key={label} label={label} value="" loading />
         ))}
       </div>
     );

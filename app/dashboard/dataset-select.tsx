@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getDatasets } from "@/services/datasetService";
 import type { DatasetSummary } from "@/types/dataset";
+import { useDatasets } from "@/hooks/useDatasets";
 
 export function DatasetSelect() {
   const router = useRouter();
@@ -12,12 +13,9 @@ export function DatasetSelect() {
   const searchParams = useSearchParams();
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const [datasets, setDatasets] = useState<DatasetSummary[]>([]);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    getDatasets().then(setDatasets);
-  }, []);
+  const { data: datasets = [] } = useDatasets();
 
   useEffect(() => {
     if (!open) return;

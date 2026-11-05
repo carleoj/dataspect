@@ -6,7 +6,7 @@ import { AsyncCard } from "./async-card";
 import { SummaryStatsTable } from "./summary-stats-table";
 
 export function SummaryStatsCard() {
-  const state = useDatasetData(getColumns);
+  const state = useDatasetData("columns", getColumns)
 
   return (
     <AsyncCard

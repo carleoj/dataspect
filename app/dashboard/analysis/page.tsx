@@ -13,8 +13,8 @@ export default function StatisticalOverviewPage() {
         <OverviewCards />
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <DistributionCard />
           <ColumnTypesCard />
+          <DistributionCard />
         </div>
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

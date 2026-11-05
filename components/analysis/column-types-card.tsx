@@ -6,7 +6,7 @@ import { AsyncCard } from "./async-card";
 import { ColumnTypeDonut } from "./column-type-donut";
 
 export function ColumnTypesCard() {
-  const state = useDatasetData(getColumnTypeCounts);
+  const state = useDatasetData("column-types", getColumnTypeCounts)
 
   return (
     <AsyncCard title="Column types" state={state} isEmpty={(d) => d.length === 0}>

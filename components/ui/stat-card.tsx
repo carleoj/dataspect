@@ -11,21 +11,28 @@ interface StatCardProps {
   value: string;
   hint?: string;
   badge?: { text: string; severity: Severity };
+  loading?: boolean;
 }
 
-export function StatCard({ label, value, hint, badge }: StatCardProps) {
+export function StatCard({ label, value, hint, badge, loading = false }: StatCardProps) {
   return (
     <article className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-6">
       <div className="h-6 self-end">
-        {badge && (
+        {!loading && badge && (
           <span className={`rounded-sm px-2 py-1 text-xs font-medium ${PILL[badge.severity]}`}>{badge.text}</span>
         )}
       </div>
       <div>
         <strong className="block text-sm font-medium text-gray-600">{label}</strong>
         <p>
-          <span className="text-2xl font-medium text-gray-900">{value}</span>{' '}
-          {hint && <span className="text-xs text-gray-600">{hint}</span>}
+          {loading ? (
+            <span className="inline-block h-8 w-24 animate-pulse rounded bg-gray-100 align-middle" aria-hidden="true" />
+          ) : (
+            <>
+              <span className="text-2xl font-medium text-gray-900">{value}</span>{' '}
+              {hint && <span className="text-xs text-gray-600">{hint}</span>}
+            </>
+          )}
         </p>
       </div>
     </article>

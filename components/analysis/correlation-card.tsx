@@ -6,7 +6,7 @@ import { AsyncCard } from "./async-card";
 import { CorrelationHeatmap } from "./correlation-heatmap";
 
 export function CorrelationCard() {
-  const state = useDatasetData(getCorrelation);
+  const state = useDatasetData("correlation", getCorrelation)
 
   return (
     <AsyncCard
