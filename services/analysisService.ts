@@ -128,15 +128,9 @@ export async function getCorrelation(datasetId: string): Promise<CorrelationMatr
   return data.data;
 }
 
-export async function getHealthSummary(_datasetId?: string): Promise<HealthSummary> {
-  return {
-    score: 74,
-    issues: 9,
-    criticalIssues: 3,
-    columnsAffected: 6,
-    checksPassed: 21,
-    checksTotal: 30,
-  };
+export async function getHealthSummary(datasetId: string): Promise<HealthSummary> {
+  const { data } = await api.get(`/datasets/${datasetId}/health`);
+  return data.data;
 }
 
 export async function getMissingSummary(_datasetId?: string): Promise<MissingSummary> {

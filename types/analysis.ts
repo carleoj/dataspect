@@ -52,12 +52,12 @@ export interface MissingSummary {
 }
 
 export interface HealthSummary {
-  score: number;
-  issues: number;
-  criticalIssues: number;
-  columnsAffected: number;
-  checksPassed: number;
-  checksTotal: number;
+  score: number | null;
+  issues: number | null;
+  criticalIssues: number | null;
+  columnsAffected: number | null;
+  checksPassed: number | null;
+  checksTotal: number | null;
 }
 
 export interface ColumnTypeCount {
