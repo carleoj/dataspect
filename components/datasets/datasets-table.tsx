@@ -21,7 +21,10 @@ export function DatasetsTable({ datasets }: { datasets: DatasetSummary[] }) {
           {datasets.map((d) => (
             <tr key={d.id}>
               <td className="px-3 py-2 font-medium whitespace-nowrap">
-                <Link href="/dashboard/analysis" className="hover:underline">
+                <Link
+                  href={`/dashboard/analysis?dataset=${d.id}`}
+                  className="hover:underline"
+                >
                   {d.name}
                 </Link>
               </td>
@@ -32,15 +35,17 @@ export function DatasetsTable({ datasets }: { datasets: DatasetSummary[] }) {
               <td className="px-3 py-2 whitespace-nowrap">{d.sizeLabel}</td>
               <td className="px-3 py-2 whitespace-nowrap">{d.uploadedLabel}</td>
               <td className="px-3 py-2 whitespace-nowrap">
-                <Badge severity={d.health === "healthy" ? "ok" : "warn"}>
-                  {d.health ? (
-                    <Badge severity={d.health === "healthy" ? "ok" : "warn"}>
-                      {d.health === "healthy" ? "Healthy" : "Needs attention"}
-                    </Badge>
-                  ) : (
-                    <span className="text-gray-500 capitalize">{d.status}</span>
-                  )}
-                </Badge>
+                {d.health ? (
+                  <Badge severity={d.health === "healthy" ? "ok" : "warn"}>
+                    {d.health === "healthy" ? "Healthy" : "Needs attention"}
+                  </Badge>
+                ) : d.status === "failed" ? (
+                  <Badge severity="bad">Failed</Badge>
+                ) : (
+                  <span className="text-gray-500">
+                    {d.status === "processing" ? "Analyzing…" : "Queued"}
+                  </span>
+                )}
               </td>
             </tr>
           ))}
