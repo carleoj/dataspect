@@ -9,6 +9,7 @@ import type {
   HistogramBin,
   Distributions,
   MissingSummary,
+  MissingData
 } from "@/types/analysis";
 
 const COLUMNS: ColumnProfile[] = [
@@ -141,6 +142,11 @@ export async function getMissingSummary(_datasetId?: string): Promise<MissingSum
     rowsWithGaps: 47213,
     rowsWithGapsPct: 47.2,
   };
+}
+
+export async function getMissing(datasetId: string): Promise<MissingData> {
+  const { data } = await api.get(`/datasets/${datasetId}/missing`);
+  return data.data;
 }
 
 /** rows x columns grid, true = missing. Only the first `rows` rows are sampled. */

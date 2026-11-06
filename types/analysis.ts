@@ -80,3 +80,13 @@ export interface Distributions {
   columns: string[];
   histograms: Record<string, HistogramBin[]>;
 }
+
+export interface MissingData {
+  cells: number | null;
+  totalCells: number | null;
+  columnsWithGaps: number | null;
+  totalColumns: number | null;
+  rowsWithGaps: number | null;
+  rowsWithGapsPct: number | null;
+  matrix: { columns: string[]; rows: boolean[][] };
+}
