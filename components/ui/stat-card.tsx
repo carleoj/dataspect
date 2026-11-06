@@ -15,7 +15,7 @@ interface StatCardProps {
 }
 
 export function StatCard({ label, value, hint, badge, loading = false }: StatCardProps) {
-  const tone = !loading && badge ? TONE[badge.severity] : null;
+  const tone = badge ? TONE[badge.severity] : null;
 
   return (
     <article
