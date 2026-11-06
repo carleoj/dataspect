@@ -1,9 +1,9 @@
 import type { Severity } from '@/types/analysis';
 
-const PILL: Record<Severity, string> = {
-  ok: 'bg-green-100 text-green-600',
-  warn: 'bg-yellow-100 text-yellow-700',
-  bad: 'bg-red-100 text-red-600',
+const TONE: Record<Severity, { card: string; pill: string }> = {
+  ok:   { card: 'border-green-300 bg-green-300',   pill: 'bg-white/70 text-green-800' },
+  warn: { card: 'border-gold-300 bg-yellow-300', pill: 'bg-white/70 text-yellow-800' },
+  bad:  { card: 'border-red-300 bg-rose-300',       pill: 'bg-white/70 text-red-800' },
 };
 
 interface StatCardProps {
@@ -15,22 +15,30 @@ interface StatCardProps {
 }
 
 export function StatCard({ label, value, hint, badge, loading = false }: StatCardProps) {
+  const tone = !loading && badge ? TONE[badge.severity] : null;
+
   return (
-    <article className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-6">
+    <article
+      className={`flex flex-col gap-4 shadow-sm rounded-lg p-6 transition-colors ${
+        tone ? tone.card : 'border-gray-200 bg-white'
+      }`}
+    >
       <div className="h-6 self-end">
-        {!loading && badge && (
-          <span className={`rounded-sm px-2 py-1 text-xs font-medium ${PILL[badge.severity]}`}>{badge.text}</span>
+        {tone && badge && (
+          <span className={`rounded-sm px-2 py-1 text-xs font-medium ${tone.pill}`}>{badge.text}</span>
         )}
       </div>
       <div>
-        <strong className="block text-sm font-medium text-gray-600">{label}</strong>
+        <strong className={`block text-sm font-medium ${tone ? 'text-gray-700' : 'text-gray-600'}`}>
+          {label}
+        </strong>
         <p>
           {loading ? (
             <span className="inline-block h-8 w-24 animate-pulse rounded bg-gray-100 align-middle" aria-hidden="true" />
           ) : (
             <>
               <span className="text-2xl font-medium text-gray-900">{value}</span>{' '}
-              {hint && <span className="text-xs text-gray-600">{hint}</span>}
+              {hint && <span className={`text-xs ${tone ? 'text-gray-700' : 'text-gray-600'}`}>{hint}</span>}
             </>
           )}
         </p>

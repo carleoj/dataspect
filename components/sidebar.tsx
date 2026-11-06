@@ -124,7 +124,7 @@ export default function Sidebar() {
             </div>
           </div>
           <nav aria-label="Dashboard" className="mt-4">
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               {navItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
@@ -140,9 +140,9 @@ export default function Sidebar() {
                       href={href}
                       onClick={closeSidebar}
                       aria-current={isActive ? "page" : undefined}
-                      className={`flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
+                      className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
                         isActive
-                          ? "bg-gray-100 text-gray-900"
+                          ? "bg-slate-800 text-white"
                           : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                       }`}
                     >

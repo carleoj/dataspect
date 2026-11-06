@@ -6,7 +6,7 @@ import { getDatasetOverview } from "@/services/analysisService";
 
 const num = (n: number | null) => (n === null ? "—" : n.toLocaleString("en-US"));
 const pct = (n: number | null) => (n === null ? "—" : `${n}%`);
-const GRID = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4";
+const GRID = "grid grid-cols-2 sm:grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4";
 const LABELS = ["Rows", "Columns", "Missing cells", "Duplicate rows"];
 
 export function OverviewCards() {
