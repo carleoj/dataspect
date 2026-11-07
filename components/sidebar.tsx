@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDatasetStore } from "../store/useDatasetsStore";
 
 const closeSidebar = () => {
@@ -83,6 +83,13 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    setPendingHref(null);
+  }
+  const current = pendingHref ?? pathname;
   useEffect(() => {
     closeSidebar();
   }, [pathname]);
@@ -127,8 +134,7 @@ export default function Sidebar() {
             <ul className="space-y-2">
               {navItems.map((item) => {
                 const isActive =
-                  pathname === item.href ||
-                  pathname.startsWith(item.href + "/");
+                  current === item.href || current.startsWith(item.href + "/");
                 const href =
                   item.href === "/dashboard/analysis" && selectedId
                     ? `${item.href}?dataset=${selectedId}`
@@ -138,7 +144,10 @@ export default function Sidebar() {
                   <li key={item.href}>
                     <Link
                       href={href}
-                      onClick={closeSidebar}
+                      onClick={() => {
+                        closeSidebar();
+                        setPendingHref(item.href);
+                      }}
                       aria-current={isActive ? "page" : undefined}
                       className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
                         isActive

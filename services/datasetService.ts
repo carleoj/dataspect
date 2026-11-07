@@ -42,3 +42,16 @@ export async function getDatasets(): Promise<DatasetSummary[]> {
   const { data } = await api.get("/datasets");
   return data.data;
 }
+
+export async function renameDataset(id: string, name: string): Promise<DatasetSummary> {
+  const { data } = await api.patch(`/datasets/${id}`, { name });
+  return data.data;
+}
+
+export async function deleteDataset(id: string): Promise<void> {
+  await api.delete(`/datasets/${id}`);
+}
+
+export async function reanalyzeDataset(id: string): Promise<void> {
+  await api.post(`/datasets/${id}/reanalyze`);
+}
