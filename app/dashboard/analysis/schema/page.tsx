@@ -3,6 +3,8 @@ import { HealthCards } from '@/components/analysis/health-cards';
 import { SchemaCard } from '@/components/analysis/schema-card';
 import { AnalysisSkeleton } from '@/components/analysis/analysis-skeleton';
 
+export const instant = false;
+
 export default function SchemaQualityPage() {
   return (
     <Suspense fallback={<AnalysisSkeleton />}>
