@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function LoginPage() {
@@ -14,6 +14,26 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const clearLoginForm = () => {
+      if (sessionStorage.getItem("just_logged_out") === "true") {
+        setEmail("");
+        setPassword("");
+        setErrorMessage("");
+
+        sessionStorage.removeItem("just_logged_out");
+      }
+    };
+
+    clearLoginForm();
+
+    window.addEventListener("pageshow", clearLoginForm);
+
+    return () => {
+      window.removeEventListener("pageshow", clearLoginForm);
+    };
+  }, []);
 
   const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: async () => {
@@ -102,6 +122,7 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
+            autoComplete="off"
             className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-900 shadow-xs focus:border-gray-900 focus:outline-none"
           />
         </div>

@@ -17,7 +17,7 @@ export function LogoutButton() {
     },
     onError: (err: any) => {
       console.error("Logout failed:", err);
-      router.push("/login");
+      router.replace("/login");
     },
   });
 

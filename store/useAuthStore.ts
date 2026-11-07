@@ -1,5 +1,6 @@
-import { create } from 'zustand';
-import { authService, Credentials, RegisterData } from '@/services/authService';
+import { create } from "zustand";
+import { authService, Credentials, RegisterData } from "@/services/authService";
+import { useUserStore } from "@/store/useUserStore";
 
 interface User {
   id: number;
@@ -25,40 +26,89 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   login: async (credentials) => {
     const data = await authService.login(credentials);
-    localStorage.setItem('auth_token', data.token);
-    set({ user: data.user, isAuthenticated: true });
+
+    localStorage.setItem("auth_token", data.token);
+
+    set({
+      user: data.user,
+      isAuthenticated: true,
+      isLoading: false,
+    });
+
+    useUserStore.getState().setUser(data.user);
   },
 
   register: async (registerData) => {
     const data = await authService.register(registerData);
-    localStorage.setItem('auth_token', data.token);
-    set({ user: data.user, isAuthenticated: true });
+
+    localStorage.setItem("auth_token", data.token);
+
+    set({
+      user: data.user,
+      isAuthenticated: true,
+      isLoading: false,
+    });
+
+    useUserStore.getState().setUser(data.user);
   },
 
   logout: async () => {
     try {
       await authService.logout();
     } finally {
-      localStorage.removeItem('auth_token');
-      set({ user: null, isAuthenticated: false });
+      localStorage.removeItem("auth_token");
+
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("just_logged_out", "true");
+      }
+
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+
+      useUserStore.getState().clearUser();
     }
   },
 
   loadUser: async () => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem("auth_token");
+
     if (!token) {
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+
+      useUserStore.getState().clearUser();
       return;
     }
 
     try {
-      const user = await authService.fetchUser();
-      set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error) {
-      localStorage.removeItem('auth_token');
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      const response = await authService.fetchUser();
+      const user = response.data ?? response;
+
+      set({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      useUserStore.getState().setUser(user);
+    } catch {
+      localStorage.removeItem("auth_token");
+
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+
+      useUserStore.getState().clearUser();
     }
   },
 }));

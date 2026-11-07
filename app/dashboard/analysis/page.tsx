@@ -6,6 +6,8 @@ import { SummaryStatsCard } from '@/components/analysis/summary-stats-card';
 import { CorrelationCard } from '@/components/analysis/correlation-card';
 import { AnalysisSkeleton } from '@/components/analysis/analysis-skeleton';
 
+export const instant = false;
+
 export default function StatisticalOverviewPage() {
   return (
     <Suspense fallback={<AnalysisSkeleton />}>
