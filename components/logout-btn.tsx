@@ -27,7 +27,7 @@ export function LogoutButton() {
       onClick={() => logoutMutation()}
       disabled={isPending}
       aria-busy={isPending}
-      className="relative flex cursor-pointer items-center gap-2 rounded-md border border-gray-200 bg-rose-700 px-4 py-2 text-sm font-medium text-white shadow-xs transition hover:bg-rose-800 disabled:cursor-wait disabled:hover:bg-rose-700"
+      className="relative inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white shadow-[0_1px_2px_rgba(225,29,72,0.4)] transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 bg-[linear-gradient(180deg,#e11d48_0%,#be123c_100%)] hover:brightness-95 disabled:cursor-wait disabled:opacity-50"
     >
       <span
         className={`flex items-center gap-2 ${isPending ? "invisible" : ""}`}

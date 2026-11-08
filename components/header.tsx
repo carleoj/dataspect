@@ -39,7 +39,7 @@ const ROUTE_MAP: Record<string, RouteConfig> = {
   },
   "/dashboard/settings": {
     title: "Settings",
-  }
+  },
 };
 
 const FALLBACK: RouteConfig = { title: "Dashboard" };
@@ -48,8 +48,8 @@ export function DashboardHeader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const stored = useDatasetStore((s) => s.selectedId);
-const dataset = searchParams.get("dataset") ?? stored;
-const qs = dataset ? `?dataset=${dataset}` : "";
+  const dataset = searchParams.get("dataset") ?? stored;
+  const qs = dataset ? `?dataset=${dataset}` : "";
 
   const currentKey = Object.keys(ROUTE_MAP)
     .filter((key) => pathname === key || pathname.startsWith(key + "/"))
@@ -97,14 +97,14 @@ const qs = dataset ? `?dataset=${dataset}` : "";
               <button
                 type="submit"
                 form={currentRoute.action.formId}
-                className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 cursor-pointer"
+                className="cursor-pointer inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 bg-[linear-gradient(180deg,#64748b_0%,#334155_100%)] shadow-[0_1px_2px_rgba(51,65,85,0.4)] hover:brightness-95"
               >
                 {currentRoute.action.label}
               </button>
             ) : (
               <Link
                 href={currentRoute.action.href || "#"}
-                className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
+                className="cursor-pointer inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 bg-[linear-gradient(180deg,#64748b_0%,#334155_100%)] shadow-[0_1px_2px_rgba(51,65,85,0.4)] hover:brightness-95"
               >
                 {currentRoute.action.label}
               </Link>

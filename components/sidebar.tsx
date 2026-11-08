@@ -149,10 +149,10 @@ export default function Sidebar() {
                         setPendingHref(item.href);
                       }}
                       aria-current={isActive ? "page" : undefined}
-                      className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
+                      className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-sm font-medium ${
                         isActive
-                          ? "bg-slate-800 text-white"
-                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                          ? "bg-[linear-gradient(180deg,#64748b_0%,#334155_100%)] text-white shadow-[0_1px_2px_rgba(51,65,85,0.4)] hover:brightness-95"
+                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
                       }`}
                     >
                       {item.icon}
