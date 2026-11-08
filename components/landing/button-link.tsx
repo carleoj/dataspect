@@ -6,8 +6,9 @@ const BASE =
 
 const VARIANTS = {
   primary:
-  "bg-[linear-gradient(180deg,#64748b_0%,#334155_100%)] text-white shadow-[0_1px_2px_rgba(51,65,85,0.4)] hover:brightness-95",
-outline: "border border-slate-200 bg-white text-slate-700 shadow-xs hover:bg-slate-50",
+    "bg-[linear-gradient(180deg,#64748b_0%,#334155_100%)] text-white shadow-[0_1px_2px_rgba(51,65,85,0.4)] hover:brightness-95",
+  outline:
+    "border border-slate-200 bg-white text-slate-700 shadow-xs hover:bg-slate-50",
 };
 
 const SIZES = {
@@ -23,9 +24,23 @@ interface ButtonLinkProps {
   children: ReactNode;
 }
 
-export function ButtonLink({ href, variant = "primary", size = "md", children }: ButtonLinkProps) {
+export function ButtonLink({
+  href,
+  variant = "primary",
+  size = "md",
+  children,
+}: ButtonLinkProps) {
+  const className = `${BASE} ${VARIANTS[variant]} ${SIZES[size]}`;
+
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} className={className}>
+        {children}
+      </a>
+    );
+  }
   return (
-    <Link href={href} className={`${BASE} ${VARIANTS[variant]} ${SIZES[size]}`}>
+    <Link href={href} className={className}>
       {children}
     </Link>
   );

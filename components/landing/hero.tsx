@@ -5,13 +5,13 @@ import { ArrowRight } from "./icons";
 export function Hero() {
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24 pt-16 sm:pt-20 lg:px-8 lg:pb-32 lg:pt-24">
-      <Link
+      <a
         href="#features"
         className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-sm text-neutral-800 transition hover:bg-neutral-100"
       >
         Introducing DataSpect
         <ArrowRight />
-      </Link>
+      </a>
 
       <h1 className="mt-3 max-w-4xl text-5xl font-semibold leading-[1.08] tracking-tight text-neutral-700 sm:text-6xl lg:text-7xl">
         Profile your datasets in seconds.
