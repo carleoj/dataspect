@@ -18,8 +18,8 @@ export function Hero() {
       </h1>
 
       <p className="mt-6 max-w-3xl text-lg leading-relaxed text-neutral-700 sm:text-xl lg:text-2xl lg:leading-9">
-        Upload a CSV and get a clear report on data quality, missing values, schema issues and
-        statistics, built for analysts and data scientists.
+        Upload a CSV and get a clear report on data quality, missing values,
+        schema issues and statistics, built for analysts and data scientists.
       </p>
 
       <div className="mt-10 flex flex-wrap gap-4">
@@ -27,7 +27,7 @@ export function Hero() {
           Get Started
           <ArrowRight className="size-5" />
         </ButtonLink>
-        <ButtonLink href="#features" variant="outline" size="lg">
+        <ButtonLink href="#how-it-works" variant="outline" size="lg">
           Learn More
         </ButtonLink>
       </div>
