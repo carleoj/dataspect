@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll } from "motion/react";
 import { Reveal } from "./reveal";
 import { AnalyzePreview, ReviewPreview, UploadPreview } from "./previews";
@@ -26,7 +26,16 @@ const STEPS = [
 export function HowItWorks() {
   const listRef = useRef<HTMLOListElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 80%", "end 60%"] });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const { scrollYProgress } = useScroll({ 
+    target: listRef, 
+    offset: ["start 80%", "end 60%"] 
+  });
 
   return (
     <section id="how-it-works" className="mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32">
@@ -43,7 +52,12 @@ export function HowItWorks() {
 
       <div className="relative mt-14">
         <div aria-hidden="true" className="absolute inset-x-0 top-4 hidden h-px bg-neutral-200 md:block">
-          <motion.div className="h-full origin-left bg-neutral-900" style={{ scaleX: reduce ? 1 : scrollYProgress }} />
+          {isMounted && (
+            <motion.div 
+              className="h-full origin-left bg-neutral-900" 
+              style={{ scaleX: reduce ? 1 : scrollYProgress }} 
+            />
+          )}
         </div>
 
         <ol ref={listRef} className="grid gap-12 md:grid-cols-3 md:gap-8">

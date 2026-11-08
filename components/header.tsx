@@ -40,6 +40,7 @@ const ROUTE_MAP: Record<string, RouteConfig> = {
   "/dashboard/settings": {
     title: "Settings",
   },
+  "/dashboard/help": { title: "Help" },
 };
 
 const FALLBACK: RouteConfig = { title: "Dashboard" };

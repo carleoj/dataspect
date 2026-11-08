@@ -15,7 +15,9 @@ const closeSidebar = () => {
   if (toggle) toggle.checked = false;
 };
 
-const navItems = [
+type NavItem = { name: string; href: string; icon: React.ReactNode };
+
+const navItems: NavItem[] = [
   {
     name: "Analysis",
     href: "/dashboard/analysis",
@@ -79,6 +81,25 @@ const navItems = [
       </svg>
     ),
   },
+  {
+    name: "Help",
+    href: "/dashboard/help",
+    icon: (
+      <svg
+        className="size-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+        />
+      </svg>
+    ),
+  },
 ];
 
 export default function Sidebar() {
@@ -95,6 +116,35 @@ export default function Sidebar() {
   }, [pathname]);
   const user = useUserStore((state) => state.user);
   const selectedId = useDatasetStore((s) => s.selectedId);
+  const renderItem = (item: NavItem) => {
+    const isActive =
+      current === item.href || current.startsWith(item.href + "/");
+    const href =
+      item.href === "/dashboard/analysis" && selectedId
+        ? `${item.href}?dataset=${selectedId}`
+        : item.href;
+
+    return (
+      <li key={item.href}>
+        <Link
+          href={href}
+          onClick={() => {
+            closeSidebar();
+            setPendingHref(item.href);
+          }}
+          aria-current={isActive ? "page" : undefined}
+          className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-sm font-medium ${
+  isActive
+    ? "bg-[linear-gradient(180deg,#64748b_0%,#334155_100%)] text-white shadow-[0_1px_2px_rgba(51,65,85,0.4)] hover:brightness-95"
+    : "text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+}`}
+        >
+          {item.icon}
+          {item.name}
+        </Link>
+      </li>
+    );
+  };
 
   return (
     <>
@@ -131,38 +181,13 @@ export default function Sidebar() {
             </div>
           </div>
           <nav aria-label="Dashboard" className="mt-4">
-            <ul className="space-y-2">
-              {navItems.map((item) => {
-                const isActive =
-                  current === item.href || current.startsWith(item.href + "/");
-                const href =
-                  item.href === "/dashboard/analysis" && selectedId
-                    ? `${item.href}?dataset=${selectedId}`
-                    : item.href;
-
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={href}
-                      onClick={() => {
-                        closeSidebar();
-                        setPendingHref(item.href);
-                      }}
-                      aria-current={isActive ? "page" : undefined}
-                      className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-sm font-medium ${
-                        isActive
-                          ? "bg-[linear-gradient(180deg,#64748b_0%,#334155_100%)] text-white shadow-[0_1px_2px_rgba(51,65,85,0.4)] hover:brightness-95"
-                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-                      }`}
-                    >
-                      {item.icon}
-                      {item.name}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+  <ul className="space-y-2">
+    {navItems.filter((item) => item.name !== "Help").map(renderItem)}
+  </ul>
+  <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4">
+    {navItems.filter((item) => item.name === "Help").map(renderItem)}
+  </ul>
+</nav>
         </div>
 
         {/* User Profile Footer */}
