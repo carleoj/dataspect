@@ -11,6 +11,7 @@ outline: "border border-slate-200 bg-white text-slate-700 shadow-xs hover:bg-sla
 };
 
 const SIZES = {
+  sm: "h-8 px-4 text-[11px]",
   md: "h-11 px-5 text-[15px]",
   lg: "h-14 px-8 text-lg",
 };

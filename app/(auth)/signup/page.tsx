@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/useAuthStore";
+import { FormButton } from "@/components/auth/formButton";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function SignupPage() {
           Create an account
         </h1>
         <p className="mt-1 text-sm text-gray-600">
-          Get started with your dashboard today.
+          Start inspecting your datasets today.
         </p>
       </div>
 
@@ -76,7 +77,7 @@ export default function SignupPage() {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Priya Natarajan"
+            placeholder="John Doe"
             className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-900 shadow-xs focus:border-gray-900 focus:outline-none"
           />
         </div>
@@ -94,7 +95,7 @@ export default function SignupPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder="you@email.com"
             className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-900 shadow-xs focus:border-gray-900 focus:outline-none"
           />
         </div>
@@ -117,13 +118,14 @@ export default function SignupPage() {
           />
         </div>
 
-        <button
+        <FormButton
           type="submit"
           disabled={isPending}
-          className="w-full rounded-md bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 disabled:opacity-50"
+          size="sm"
+          className="w-full"
         >
           {isPending ? "Creating account..." : "Create account"}
-        </button>
+        </FormButton>
       </form>
 
       <p className="mt-6 text-center text-sm text-gray-600">
