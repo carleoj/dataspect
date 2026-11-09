@@ -11,7 +11,7 @@ export interface RegisterData extends Credentials {
 
 export const authService = {
   async register(data: RegisterData) {
-    const response = await api.post('/register', data);
+    const response = await api.post('/api/register', data);
     return response.data; 
   },
 
