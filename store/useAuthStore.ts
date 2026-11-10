@@ -1,13 +1,7 @@
 import { create } from "zustand";
 import { authService, Credentials, RegisterData } from "@/services/authService";
 import { useUserStore } from "@/store/useUserStore";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  created_at: string;
-}
+import type { User } from "@/types/user";
 
 interface AuthState {
   user: User | null;

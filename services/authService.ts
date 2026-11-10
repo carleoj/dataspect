@@ -1,4 +1,5 @@
 import { api } from '@/lib/axios';
+import type { User } from '@/types/user';
 
 export interface Credentials {
   email: string;
