@@ -40,7 +40,13 @@ export function uploadErrorMessage(err: unknown): string {
 
 export async function getDatasets(): Promise<DatasetSummary[]> {
   const { data } = await api.get("/datasets");
-  return data.data;
+  const datasets = Array.isArray(data?.data) ? data.data : data;
+
+  if (!Array.isArray(datasets)) {
+    throw new Error("The datasets response was invalid.");
+  }
+
+  return datasets;
 }
 
 export async function renameDataset(id: string, name: string): Promise<DatasetSummary> {
