@@ -5,7 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { useAuthStore } from "@/store/useAuthStore";
+import { INVALID_AUTH_RESPONSE_ERROR } from "@/services/authService";
 import { FormButton } from "@/components/auth/formButton";
 
 export default function SignupPage() {
@@ -24,11 +26,15 @@ export default function SignupPage() {
     onSuccess: () => {
       router.push("/dashboard/analysis");
     },
-    onError: (err: any) => {
+    onError: (err: unknown) => {
+      const response = axios.isAxiosError(err) ? err.response : undefined;
+
       setErrorMessage(
-        err.response?.data?.message ||
-          err.message ||
-          "Something went wrong during registration.",
+        err instanceof Error && err.message === INVALID_AUTH_RESPONSE_ERROR
+          ? "Unable to create your account. Check your credentials."
+          : response?.data?.message ||
+              (err instanceof Error ? err.message : undefined) ||
+              "Something went wrong during registration.",
       );
     },
   });

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuthStore } from "@/store/useAuthStore";
+import { INVALID_AUTH_RESPONSE_ERROR } from "@/services/authService";
 import { useEffect, useState } from "react";
 import { FormButton } from "@/components/auth/formButton";
 import Image from "next/image";
@@ -48,10 +49,12 @@ export default function LoginPage() {
       const response = axios.isAxiosError(err) ? err.response : undefined;
 
       setErrorMessage(
-        response?.data?.errors?.email?.[0] ||
-          response?.data?.message ||
-          (err instanceof Error ? err.message : undefined) ||
-          "Invalid email or password.",
+        err instanceof Error && err.message === INVALID_AUTH_RESPONSE_ERROR
+          ? "Unable to sign in. Please try again."
+          : response?.data?.errors?.email?.[0] ||
+              response?.data?.message ||
+              (err instanceof Error ? err.message : undefined) ||
+              "Invalid email or password.",
       );
     },
   });

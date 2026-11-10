@@ -16,6 +16,9 @@ export interface AuthResponse {
   token: string;
 }
 
+export const INVALID_AUTH_RESPONSE_ERROR =
+  "The authentication response did not include a valid token.";
+
 function validateAuthResponse(data: unknown): AuthResponse {
   if (
     typeof data !== "object" ||
@@ -24,7 +27,7 @@ function validateAuthResponse(data: unknown): AuthResponse {
     !(data as { token: string }).token.trim() ||
     (data as { token: string }).token === "undefined"
   ) {
-    throw new Error("The authentication response did not include a valid token.");
+    throw new Error(INVALID_AUTH_RESPONSE_ERROR);
   }
 
   return data as AuthResponse;
