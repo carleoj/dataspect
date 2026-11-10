@@ -9,15 +9,35 @@ export interface RegisterData extends Credentials {
   name: string;
 }
 
+export interface AuthResponse {
+  message: string;
+  user: User;
+  token: string;
+}
+
+function validateAuthResponse(data: unknown): AuthResponse {
+  if (
+    typeof data !== "object" ||
+    data === null ||
+    typeof (data as { token?: unknown }).token !== "string" ||
+    !(data as { token: string }).token.trim() ||
+    (data as { token: string }).token === "undefined"
+  ) {
+    throw new Error("The authentication response did not include a valid token.");
+  }
+
+  return data as AuthResponse;
+}
+
 export const authService = {
   async register(data: RegisterData) {
     const response = await api.post('/register', data);
-    return response.data; 
+    return validateAuthResponse(response.data);
   },
 
   async login(credentials: Credentials) {
     const response = await api.post('/login', credentials);
-    return response.data; 
+    return validateAuthResponse(response.data);
   },
 
   async logout() {

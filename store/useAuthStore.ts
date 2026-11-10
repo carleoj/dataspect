@@ -91,7 +91,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     const token = localStorage.getItem("auth_token");
 
-    if (!token) {
+    if (!token || token === "undefined" || token === "null") {
+      localStorage.removeItem("auth_token");
       set({
         user: null,
         isAuthenticated: false,
