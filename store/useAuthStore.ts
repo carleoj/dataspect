@@ -25,17 +25,31 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
 
   login: async (credentials) => {
-    const data = await authService.login(credentials);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("auth_token");
+    }
 
-    localStorage.setItem("auth_token", data.token);
+    try {
+      const data = await authService.login(credentials);
 
-    set({
-      user: data.user,
-      isAuthenticated: true,
-      isLoading: false,
-    });
+      localStorage.setItem("auth_token", data.token);
 
-    useUserStore.getState().setUser(data.user);
+      set({
+        user: data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      useUserStore.getState().setUser(data.user);
+    } catch (error) {
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+      useUserStore.getState().clearUser();
+      throw error;
+    }
   },
 
   register: async (registerData) => {

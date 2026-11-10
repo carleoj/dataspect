@@ -45,7 +45,8 @@ export default function LoginPage() {
     },
     onError: (err: any) => {
       setErrorMessage(
-        err.response?.data?.message ||
+        err.response?.data?.errors?.email?.[0] ||
+          err.response?.data?.message ||
           err.message ||
           "Invalid email or password.",
       );
