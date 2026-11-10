@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect, useState } from "react";
 import { FormButton } from "@/components/auth/formButton";
@@ -43,11 +44,13 @@ export default function LoginPage() {
     onSuccess: () => {
       router.push("/dashboard/analysis");
     },
-    onError: (err: any) => {
+    onError: (err: unknown) => {
+      const response = axios.isAxiosError(err) ? err.response : undefined;
+
       setErrorMessage(
-        err.response?.data?.errors?.email?.[0] ||
-          err.response?.data?.message ||
-          err.message ||
+        response?.data?.errors?.email?.[0] ||
+          response?.data?.message ||
+          (err instanceof Error ? err.message : undefined) ||
           "Invalid email or password.",
       );
     },
